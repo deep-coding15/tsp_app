@@ -1,0 +1,26 @@
+.distance-villes{
+    position: relative;
+    width: fit-content;
+    margin: auto;
+    /* background-color: rgb(125, 89, 89); */
+    box-shadow: 2px -2px 2px honeydew;
+    border: 1px solid rgb(175, 214, 175);
+}
+
+label{
+    font-weight: bold;
+    display: inline;
+}
+
+.item{
+    margin-bottom: 20px;
+}
+
+.depart{}
+.arrivee{}
+
+button{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
