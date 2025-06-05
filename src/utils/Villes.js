@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-
-function Villes(){
+import LireJson from "./LireJson"
+function Villes({id}){
     const [villes, setVilles] = useState([])
 
     useEffect(() => {
@@ -19,17 +19,20 @@ function Villes(){
         .catch((err) => console.log("Erreur lors du chargement : ", err));
         
     }, []);
-
+    /* const data = <LireJson />
+    console.log(data); */
+    
     return (
-        <div>
+        <>
+            
             {/* <h1>Liste des villes</h1> */}
-            <select>
+            <select htmlFor={id}>
                 <option disabled value="">Sélectionner une option</option>
                 {villes.map((ville, index) => (
                 <option key={index} value={ville}>{ville}</option>
                 ))}
             </select>
-        </div>
+        </>
     )
 }
 

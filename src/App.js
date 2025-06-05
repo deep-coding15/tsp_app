@@ -1,19 +1,7 @@
-import logo from './logo.svg';
-import Distance from './utils/VillesDistance';
-import Villes from './utils/Villes';
-import RecupererJson from './utils/LireJson';
+import CalculerDistance from './utils/CalculerDistance';
 function App() {
   return (
-    <>
-      <label>La ville de depart</label>
-      <Villes />
-
-      <label>La ville d'arrivée</label>
-      <Villes />
-      <RecupererJson/>
-
-    </>
-    
+    <CalculerDistance/>
   );
 }
 
