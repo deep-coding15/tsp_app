@@ -121,6 +121,85 @@ function JsonTo2D(){
     return Tableau2D;
 }
 
+function Combine(props){
+    const tab = JsonTo2D();
+    const cost = [
+        [ 0, 50, 15, 20 ], [ 10, 0, 35, 50 ], [ 15, 25, 0, 30 ],
+        [ 20, 25, 30, 0 ]
+    ];
+    const naive = naiveApproach(cost);
+    console.log(naive)
+    return naive;
+}
+export {Combine}
+
+//this calculate the distance of all the permissions for every cities and select the minimum
+//props : must be an 2dimensions Array
+//it's a good approach when the number of cities is under 10.
+function naiveApproach(props){
+
+    //Number of nodes
+    const numNodes = props.length;
+    const nodes = [];
+
+    //initialize the nodes and excluding the point started 0
+    for(let i = 1; i < numNodes; i++){
+        nodes.push(i)
+    }
+
+    let minCost = Infinity;
+
+    //Generate all permutations of the remaining nodes
+    const permutations = getPermutations(nodes);
+    for (let perm of permutations) {
+        let currCost = 0;
+        let currNode = 0; //start from node 0
+        
+        //calculate the cost of the current permutation
+        for (let i = 0; i < perm.length; i++) {
+            currCost += props[currNode][perm[i]];
+            currNode = perm[i];
+            
+        }
+
+        //Add the cost to return to the starting node
+        currCost += props[currNode][0];
+
+        //update the minimum
+        minCost = Math.min(minCost, currCost);
+        console.log(minCost);
+        
+    }
+    return minCost;
+}
+
+//function to generate all permutations of an array
+function getPermutations(array){
+    const result = []
+
+    if (array.length === 1) {
+        return [ array ];
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        const current = array[i];
+        const remaining = array.slice(0, i).concat(array.slice(i+1));
+
+        const remainingPermutations = getPermutations(remaining);
+
+        for(let perm of remainingPermutations)
+            result.push([current].concat(perm));
+    }
+
+    console.log(result);
+    
+    return result;
+}
+
+
+
+//todo : ecrire la fonction qui permet de trouver le plus court chemin
+
 export {JsonTo2D}
 
 export default CalculerDistance;
