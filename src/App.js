@@ -1,8 +1,13 @@
-import CalculerDistance from './utils/CalculerDistance';
-
+import DistanceACalculer from './utils/essai.jsx';
+import CalculerDistance, { JsonTo2D } from './utils/CalculerDistance';
 function App() {
   return (
-    <CalculerDistance />
+    <>
+      <CalculerDistance/>
+      {/* <DistanceACalculer/> */}
+      <JsonTo2D/>
+    </>
+    
   );
 }
 

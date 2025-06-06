@@ -67,11 +67,60 @@ function CalculerDistance() {
                 </select>
             </div>
 
-            <button onClick={distanceCalculator}>Calculer</button>
+            <button onClick={distanceCalculator}>Rechercher</button>
 
             {result && <p>{result}</p>}
         </div>
     );
 }
+
+//transformer un fichier json en un tableau 2D
+function JsonTo2D(){
+    const [data, setData] = useState([])
+    const [villes, setVilles] = useState([])
+    const [cities_with_distances, setCities_with_distances] = useState([])
+    const [Tableau2D, setTableau2D] = useState([])
+    useEffect(() => {
+        fetch("./distances_villes.json")
+        .then((res) => res.json())
+        .then((json) => {
+            setData(json.distances)
+
+            const distances = json.distances;
+            
+            const cities = json.distances.flatMap(({ville1, ville2}) => [ville1, ville2]);
+            const uniqueCities = [...new Set(cities)]
+
+            //associer à chaque ville un index
+            const map = new Map();
+            uniqueCities.forEach((element, index) => {
+                map.set(element, index)
+            });
+
+            //cree un tableau 2D de taille le nombre de villes du fichier Json avec valeurs Infinity par defaut 
+            var tailleTableau = uniqueCities.length;
+            let matrix = Array.from({length: tailleTableau}, () => Array(tailleTableau).fill(Infinity))
+   
+            //Remplis le tableau avec les valeurs
+            //cities_with_distances && cities_with_distances.forEach(({ville1, vi})) 
+                
+                /* cities_with_distances &&  */distances.forEach(({ville1, ville2, distance_km}) => {
+                    const i = map.get(ville1);
+                    const j = map.get(ville2);
+                       
+                    matrix[i][j] = distance_km;
+                    matrix[j][i] = distance_km;
+                })
+            setTableau2D(matrix)
+            setVilles([...new Set(cities)])
+            
+        })
+    }, [])
+    
+    
+    return Tableau2D;
+}
+
+export {JsonTo2D}
 
 export default CalculerDistance;
