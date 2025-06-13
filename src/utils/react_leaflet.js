@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow
 });
 
-const MapView = () => {
+const MapView = ({ children }) => {
   const [cities, setCities] = React.useState([]);
 
   React.useEffect(() => {
@@ -27,19 +27,20 @@ const MapView = () => {
   }, []);
 
   return (
-    <MapContainer center={[34.0209, -6.8416]} zoom={13} scrollWheelZoom={true} style={{ height: '100vh', width: '100%' }}>
+    <MapContainer center={[34.0209, -6.8416]} zoom={4} scrollWheelZoom={false} style={{ height: '70vh', width: '80%' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      
-      {cities && Object.entries(cities).map(([nom, city]) => (
+      {children}
+
+      {/* {cities && Object.entries(cities).map(([nom, city]) => (
         <Marker key={nom} position={[city.latitude, city.longitude]}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-      ))}
+      ))} */}
     </MapContainer>
   );
 };

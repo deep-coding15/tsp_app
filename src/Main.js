@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getCities, getOptimizedRoute } from './utils/API_Axios';
 
+import MapView from './utils/react_leaflet';
+import { Popup, Marker } from 'react-leaflet';
+
 function Main() {
   const [citiesMap, setCitiesMap] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
@@ -77,6 +80,17 @@ function Main() {
       {route && <h3>Distance totale : {distanceOptimises} km</h3>}
 
       <h2>Visible sur la Map</h2>
+      <MapView>
+        {citiesMap && Object.entries(citiesMap).map(([nom, city]) =>
+          selectedCities.includes(city.name) ? (
+            <Marker key={nom} position={[city.latitude, city.longitude]}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          ) : null
+        )}
+      </MapView>
     </div>
   );
 }
