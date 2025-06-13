@@ -8,6 +8,8 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+import { getCities } from './API_Axios';
+
 // Correction des icônes de Leaflet dans les bundles Webpack/Vite/CRA
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -18,17 +20,26 @@ L.Icon.Default.mergeOptions({
 });
 
 const MapView = () => {
+  const [cities, setCities] = React.useState([]);
+
+  React.useEffect(() => {
+    getCities().then(data => setCities(data));
+  }, []);
+
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} style={{ height: '100vh', width: '100%' }}>
+    <MapContainer center={[34.0209, -6.8416]} zoom={13} scrollWheelZoom={true} style={{ height: '100vh', width: '100%' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      
+      {cities && Object.entries(cities).map(([nom, city]) => (
+        <Marker key={nom} position={[city.latitude, city.longitude]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 };

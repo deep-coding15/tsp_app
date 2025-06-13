@@ -66,8 +66,8 @@ function Main() {
           <h2>Distance optimisée : {route.distanceOptimises} km</h2>
           <ol>
             {route.map((city, index) => (
-              <li key={city.id}>
-                {city.name} ({city.latitude}, {city.longitude})
+              <li key={city.id} style={{listStyle: 'none'}}>
+                {city.name} 
               </li>
             ))}
           </ol>
@@ -75,6 +75,8 @@ function Main() {
       )}
       
       {route && <h3>Distance totale : {distanceOptimises} km</h3>}
+
+      <h2>Visible sur la Map</h2>
     </div>
   );
 }

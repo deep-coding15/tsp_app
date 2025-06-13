@@ -10,7 +10,7 @@ function App() {
       {/* <JsonTo2D/> */}
       {/* <Combine/> */}
       <Main/>
-      {/* <MapView/> */}
+      <MapView/>
     </>
     
   );
