@@ -7,6 +7,7 @@ function CalculerDistance() {
     const [depart, setDepart] = useState("");
     const [arrivee, setArrivee] = useState("");
     const [result, setResult] = useState(null);
+    
     //code pour lancer le chargement du fichier qui contient les distances entre deux villes en JSON
     useEffect(() => {
         fetch("/distances_villes.json")
@@ -133,7 +134,7 @@ function Combine(props){
 }
 export {Combine}
 
-//this calculate the distance of all the permissions for every cities and select the minimum
+//this calculate the distance of all the permutations for every cities and select the minimum
 //props : must be an 2dimensions Array
 //it's a good approach when the number of cities is under 10.
 function naiveApproach(props){
