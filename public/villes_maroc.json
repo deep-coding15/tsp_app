@@ -1,0 +1,92 @@
+{
+  "Meknès": {
+    "id": 12,
+    "name": "Meknès",
+    "latitude": 33.895,
+    "longitude": -5.5547
+  },
+  "Beni Mellal": {
+    "id": 13,
+    "name": "Beni Mellal",
+    "latitude": 32.3394,
+    "longitude": -6.3606
+  },
+  "Casablanca": {
+    "id": 1,
+    "name": "Casablanca",
+    "latitude": 33.5731,
+    "longitude": -7.5898
+  },
+  "Essaouira": {
+    "id": 11,
+    "name": "Essaouira",
+    "latitude": 31.5085,
+    "longitude": -9.7595
+  },
+  "Tétouan": {
+    "id": 8,
+    "name": "Tétouan",
+    "latitude": 35.572,
+    "longitude": -5.3626
+  },
+  "Nador": {
+    "id": 9,
+    "name": "Nador",
+    "latitude": 35.1688,
+    "longitude": -2.9335
+  },
+  "Fès": {
+    "id": 4,
+    "name": "Fès",
+    "latitude": 34.0331,
+    "longitude": -5.0003
+  },
+  "Oujda": {
+    "id": 7,
+    "name": "Oujda",
+    "latitude": 34.6833,
+    "longitude": -1.9167
+  },
+  "Tanger": {
+    "id": 5,
+    "name": "Tanger",
+    "latitude": 35.7595,
+    "longitude": -5.8339
+  },
+  "Marrakech": {
+    "id": 3,
+    "name": "Marrakech",
+    "latitude": 31.6295,
+    "longitude": -7.9811
+  },
+  "Laâyoune": {
+    "id": 15,
+    "name": "Laâyoune",
+    "latitude": 27.1253,
+    "longitude": -13.1625
+  },
+  "Errachidia": {
+    "id": 14,
+    "name": "Errachidia",
+    "latitude": 31.9311,
+    "longitude": -4.4241
+  },
+  "Agadir": {
+    "id": 6,
+    "name": "Agadir",
+    "latitude": 30.4278,
+    "longitude": -9.5981
+  },
+  "El Jadida": {
+    "id": 10,
+    "name": "El Jadida",
+    "latitude": 33.2333,
+    "longitude": -8.5
+  },
+  "Rabat": {
+    "id": 2,
+    "name": "Rabat",
+    "latitude": 34.0209,
+    "longitude": -6.8416
+  }
+}

@@ -8,7 +8,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import { getCities } from './API_Axios';
+import { getCities, getCitiesOffline } from './API_Axios';
 
 // Correction des icônes de Leaflet dans les bundles Webpack/Vite/CRA
 delete L.Icon.Default.prototype._getIconUrl;

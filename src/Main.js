@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getCities, getOptimizedRoute } from './utils/API_Axios';
+import { getCities, getCitiesOffline, getOptimizedRoute } from './utils/API_Axios';
+import { useMemo } from 'react';
 
 import MapView from './utils/react_leaflet';
 import { Popup, Marker, Polyline } from 'react-leaflet';
 
 import './Main.css'
-import MyPolyline from './utils/line';
+import {MyPolyline, buildPolylineFromCityNamesObject} from './utils/line';
 
 function Main() {
   const [citiesMap, setCitiesMap] = useState([]);
@@ -14,12 +15,14 @@ function Main() {
   //contient la route optimale entre plusieurs points
   const [route, setRoute] = useState(null);
   const [distanceOptimises, setDistanceOptimises] = useState(0);
-  const [positionCities, setpositionCities] = useState([[]]);
+  const [positionCitiess, setpositionCitiess] = useState([[]]);
 
 
   useEffect(() => {
+    //getCities().then(data => setCitiesMap(data));  //Quand le backend est actif
     getCities().then(data => setCitiesMap(data));
   }, []);
+
 
   
     
@@ -33,7 +36,7 @@ function Main() {
       res && console.log(res.distanceOptimises);
       setRoute(res.route);
       setDistanceOptimises(res.distanceOptimises);
-
+      
       /* res && res.route.forEach(element => {
         //setpositionCities([element.latitude, element.longitude]);
         console.log("position: ", element.latitude, element.longitude);
@@ -45,7 +48,7 @@ function Main() {
         setpositionCities([...positionCities, [elt.latitude, elt.longitude]])
       });  */
     
-      togglePositonsCity(res.route);
+      
       //console.log("position cities: ", positionCities);
       console.log("passe");
     } catch (err) {
@@ -53,7 +56,9 @@ function Main() {
     }
   };
 
-  function togglePositonsCity(city) {
+
+
+  /* function togglePositonsCity(city) {
     setpositionCities(prev => {
       const found = prev.some(
         c => c[0] === city.latitude && c[1] === city.longitude
@@ -69,11 +74,11 @@ function Main() {
         return [...prev, [city.latitude, city.longitude]];
       }
     });
-  }
-  useEffect(() => {
+  } */
+  /* useEffect(() => {
     console.log("positions cities: ", positionCities);
   }, [positionCities]);
-    
+     */
 
 
   //todo: faire une polyligne avec les lignes selectiones
@@ -83,19 +88,29 @@ function Main() {
         ? prev.filter(c => c !== city)
         : [...prev, city]
     );
+
+    //setpositionCities()
     //setpositionCities([]);
     //console.log("positions cities: ", positionCities);
   };
-/* const positionCities = [
-  [ [34.0209, -6.8416], [35.7595, -5.8339] ], // Ligne entre Rabat et Tanger
-  [ [35.7595, -5.8339], [31.6295, -7.9811] ]  // Ligne entre Tanger et Marrakech
-]; */
+
+ 
+
+
+const positionCities = useMemo(() => {
+  return [
+    [ [34.0209, -6.8416], [35.7595, -5.8339] ], // Ligne entre Rabat et Tanger
+    [ [35.7595, -5.8339], [31.6295, -7.9811] ],  // Ligne entre Tanger et Marrakech
+    [[27.1253, -13.1625], [35.572, -5.3626] ] //tetouan et layoune
+  ];
+}, []);
+
   return (
     <div style={{position: 'relative', top: '-40px', width: '90%', margin: 'auto'}}>
       <h1>Optimiseur de voyage</h1>
       <ul style={{display: 'flex', flexWrap: 'wrap', position: 'relative', top: '70px', gap: '20px'}}>
-        {citiesMap && Object.entries(citiesMap).map(([nom, city]) => (
-          <li key={nom} style={{listStyle: 'none', width: '60px'}}>
+        {citiesMap && Object.entries(citiesMap).map(([nom, city], index) => (
+          <li key={`${index}-nom`} style={{listStyle: 'none', width: '60px'}}>
             <label >
               <input
                 type="checkbox"
@@ -141,12 +156,12 @@ function Main() {
         {citiesMap && Object.entries(citiesMap).map(([key, city], index) =>
           selectedCities.includes(city.name) ? (
             <>
-              <Marker key={key || index} position={[city.latitude, city.longitude]}>
+              <Marker key={`${key}-${index}`} position={[city.latitude, city.longitude]}>
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
               </Marker>
-              <MyPolyline selectedCities/>
+              {positionCities && <MyPolyline positions={buildPolylineFromCityNamesObject(citiesMap, selectedCities)}/>}
               {/* <Polyline positions={[[34.0522, -118.2437], [36.7783, -119.4179]]} /> */}
             </>
           ) : null
