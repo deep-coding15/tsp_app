@@ -26,6 +26,24 @@ MyPolyline.propTypes = {
   ).isRequired,
 };
 
+export function buildPolylineFromCityNames(routes){
+  const route = Object.values(routes);
+  console.log(routes);
+  console.log(route);
+  const result = [];
+  for (let i = 0; i < route.length - 1; i++) {
+    const cityA = route[i];
+    const cityB = route[i + 1];
+
+    result.push([
+      [cityA.latitude, cityA.longitude],
+      [cityB.latitude, cityB.longitude]
+    ]);
+  }
+
+  return result;
+}
+
 export function buildPolylineFromCityNamesArray(allCities, cityNames) {
   // Étape 1 : Filtrer les villes selon le nom dans l'ordre donné
   const selectedCities = cityNames

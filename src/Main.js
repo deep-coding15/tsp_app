@@ -6,16 +6,16 @@ import MapView from './utils/react_leaflet';
 import { Popup, Marker, Polyline } from 'react-leaflet';
 
 import './Main.css'
-import {MyPolyline, buildPolylineFromCityNamesObject} from './utils/line';
+import {MyPolyline, buildPolylineFromCityNames, buildPolylineFromCityNamesObject} from './utils/line';
 
 function Main() {
   const [citiesMap, setCitiesMap] = useState([]);
   //lorsque les villes sont selectionnees
   const [selectedCities, setSelectedCities] = useState([]);
   //contient la route optimale entre plusieurs points
-  const [route, setRoute] = useState(null);
+  const [route, setRoute] = useState([]);
   const [distanceOptimises, setDistanceOptimises] = useState(0);
-  const [positionCitiess, setpositionCitiess] = useState([[]]);
+  const [positionCities, setpositionCities] = useState([[]]);
 
 
   useEffect(() => {
@@ -23,6 +23,9 @@ function Main() {
     getCities().then(data => setCitiesMap(data));
   }, []);
 
+  useEffect(() => {
+    setpositionCities(buildPolylineFromCityNames(route))
+  }, [selectedCities, route])
 
   
     
@@ -35,19 +38,7 @@ function Main() {
       res && console.log(res.route);
       res && console.log(res.distanceOptimises);
       setRoute(res.route);
-      setDistanceOptimises(res.distanceOptimises);
-      
-      /* res && res.route.forEach(element => {
-        //setpositionCities([element.latitude, element.longitude]);
-        console.log("position: ", element.latitude, element.longitude);
-      });  */
-
-      /* res && res.route && res.route.forEach((elt) => {
-        //setpositionCities([...positionCities, [elt.latitude, elt.longitude]]);
-        console.log("position_39: ", [elt.latitude, elt.longitude]);
-        setpositionCities([...positionCities, [elt.latitude, elt.longitude]])
-      });  */
-    
+      setDistanceOptimises(res.distanceOptimises);  
       
       //console.log("position cities: ", positionCities);
       console.log("passe");
@@ -55,31 +46,6 @@ function Main() {
       console.error("Erreur lors de l'optimisation :", err);
     }
   };
-
-
-
-  /* function togglePositonsCity(city) {
-    setpositionCities(prev => {
-      const found = prev.some(
-        c => c[0] === city.latitude && c[1] === city.longitude
-      );
-
-      if (found) {
-        // Supprimer la position si elle est déjà présente
-        return prev.filter(
-          c => !(c[0] === city.latitude && c[1] === city.longitude)
-        );
-      } else {
-        // Ajouter la position
-        return [...prev, [city.latitude, city.longitude]];
-      }
-    });
-  } */
-  /* useEffect(() => {
-    console.log("positions cities: ", positionCities);
-  }, [positionCities]);
-     */
-
 
   //todo: faire une polyligne avec les lignes selectiones
   const toggleCity = (city) => {
@@ -97,13 +63,13 @@ function Main() {
  
 
 
-const positionCities = useMemo(() => {
+/* const positionCities = useMemo(() => {
   return [
     [ [34.0209, -6.8416], [35.7595, -5.8339] ], // Ligne entre Rabat et Tanger
     [ [35.7595, -5.8339], [31.6295, -7.9811] ],  // Ligne entre Tanger et Marrakech
     [[27.1253, -13.1625], [35.572, -5.3626] ] //tetouan et layoune
   ];
-}, []);
+}, []); */
 
   return (
     <div style={{position: 'relative', top: '-40px', width: '90%', margin: 'auto'}}>
@@ -158,10 +124,10 @@ const positionCities = useMemo(() => {
             <>
               <Marker key={`${key}-${index}`} position={[city.latitude, city.longitude]}>
                 <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
+                  {city.name}
                 </Popup>
               </Marker>
-              {positionCities && <MyPolyline positions={buildPolylineFromCityNamesObject(citiesMap, selectedCities)}/>}
+              {route && <MyPolyline positions={positionCities}/>}
               {/* <Polyline positions={[[34.0522, -118.2437], [36.7783, -119.4179]]} /> */}
             </>
           ) : null
